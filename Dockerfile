@@ -1,9 +1,9 @@
-# The suggested name for this image is: bioconductor/bioconductor_docker:devel
-FROM rocker/rstudio:devel
+# The suggested name for this image is: bioconductor/bioconductor_docker:r4.0.0
+FROM rockerdev/rstudio:4.0.0
 
 ## Set Dockerfile version number
 ## This parameter should be incremented each time there is a change in the Dockerfile
-ARG BIOCONDUCTOR_DOCKER_VERSION=3.11.9
+ARG BIOCONDUCTOR_DOCKER_VERSION=3.11.10
 
 LABEL name="bioconductor/bioconductor_docker" \
       version=$BIOCONDUCTOR_DOCKER_VERSION \
@@ -34,8 +34,8 @@ RUN apt-get update \
 	## Basic deps
 	gdb \
 	libxml2-dev \
-	python-pip \
-	libz-dev \
+	python3-pip \
+	zlib1g-dev \
 	liblzma-dev \
 	libbz2-dev \
 	libpng-dev \
@@ -56,11 +56,11 @@ RUN apt-get update \
 	libexempi8 \
 	libxt-dev \
 	libgdal-dev \
-	libjpeg62-turbo-dev \
+	libturbojpeg0-dev \
 	libcairo2-dev \
 	libtiff5-dev \
 	libreadline-dev \
-	libgsl0-dev \
+	libgsl-dev \
 	libgslcblas0 \
 	libgtk2.0-dev \
 	libgl1-mesa-dev \
@@ -71,7 +71,7 @@ RUN apt-get update \
 	libbz2-dev \
 	libxpm-dev \
 	liblapack-dev \
-	libv8-dev \
+	libnode-dev \
 	libgtkmm-2.4-dev \
 	libmpfr-dev \
 	libudunits2-dev \
@@ -112,15 +112,20 @@ RUN apt-get update \
 	xfonts-100dpi \
 	xfonts-75dpi \
 	biber \
+        software-properties-common \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
+	
+RUN add-apt-repository universe \
+	&& add-apt-repository multiverse \
+	&& add-apt-repository restricted
 
 ## Python installations
 RUN apt-get update \
-	&& apt-get -y --no-install-recommends install python-dev \
-	&& pip install wheel \
+	&& apt-get -y --no-install-recommends install python3-dev \
+	&& pip3 install wheel \
 	## Install sklearn and pandas on python
-	&& pip install sklearn \
+	&& pip3 install sklearn \
 	pandas \
 	pyyaml \
 	cwltool \
@@ -130,20 +135,21 @@ RUN apt-get update \
 # Install libsbml and xvfb
 RUN cd /tmp \
 	## libsbml
-	&& curl -O https://s3.amazonaws.com/linux-provisioning/libSBML-5.10.2-core-src.tar.gz \
-	&& tar zxf libSBML-5.10.2-core-src.tar.gz \
-	&& cd libsbml-5.10.2 \
+	&& wget https://sourceforge.net/projects/sbml/files/libsbml/5.18.0/stable/libSBML-5.18.0-core-src.tar.gz \
+	&& tar zxf libSBML-5.18.0-core-src.tar.gz \
+	&& cd libsbml-5.18.0 \
 	&& ./configure --enable-layout \
 	&& make \
 	&& make install \
 	## xvfb install
 	&& cd /tmp \
-	&& curl -SL https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz | tar -xzC / \
+	&& wget https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz \
+	&& tar zxf s6-overlay-amd64.tar.gz -C / \
 	&& apt-get update && apt-get install -y --no-install-recommends xvfb \
 	&& mkdir -p /etc/services.d/xvfb/ \
 	## Clean libsbml, and tar.gz files
-	&& rm -rf /tmp/libsbml-5.10.2 \
-	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz \
+	&& rm -rf /tmp/libsbml-5.18.0 \
+	&& rm -rf /tmp/libSBML-5.18.0-core-src.tar.gz \
 	## apt-get clean and remove cache
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
