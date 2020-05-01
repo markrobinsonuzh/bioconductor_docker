@@ -145,10 +145,11 @@ RUN cd /tmp \
 	&& make install \
 	## xvfb install
 	&& cd /tmp \
+	&& rm -rf /tmp/s6-overlay* \
 	&& wget https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz \
 	&& tar zxf s6-overlay-amd64.tar.gz -C / \
-	&& apt-get update && apt-get install -y --no-install-recommends xvfb \
-	&& mkdir -p /etc/services.d/xvfb/ \
+	#&& apt-get install -y --no-install-recommends xvfb \
+	#&& mkdir -p /etc/services.d/xvfb/ \
 	## Clean libsbml, and tar.gz files
 	&& rm -rf /tmp/libsbml-5.18.0 \
 	&& rm -rf /tmp/libSBML-5.18.0-core-src.tar.gz \
@@ -156,7 +157,7 @@ RUN cd /tmp \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY ./deps/xvfb_init /etc/services.d/xvfb/run
+#COPY ./deps/xvfb_init /etc/services.d/xvfb/run
 
 RUN echo "R_LIBS=/usr/local/lib/R/host-site-library:\${R_LIBS}" > /usr/local/lib/R/etc/Renviron.site \
 	&& echo "options(defaultPackages=c(getOption('defaultPackages'),'BiocManager'))" >> /usr/local/lib/R/etc/Rprofile.site
@@ -166,7 +167,7 @@ ADD install.R /tmp/
 RUN R -f /tmp/install.R
 
 # DEVEL: Add sys env variables to DEVEL image
-RUN curl -O http://bioconductor.org/checkResults/devel/bioc-LATEST/Renviron.bioc \
+RUN wget http://bioconductor.org/checkResults/devel/bioc-LATEST/Renviron.bioc \
 	&& cat Renviron.bioc | grep -o '^[^#]*' | sed 's/export //g' >>/etc/environment \
 	&& cat Renviron.bioc >> /usr/local/lib/R/etc/Renviron.site \
 	&& rm -rf Renviron.bioc
