@@ -30,8 +30,10 @@ ENV DEBIAN_FRONTEND noninteractive
 # Update apt-get
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends apt-utils \
-	&& apt-get install -y --no-install-recommends \
+	&& apt-get install -y --no-install-recommends default-libmysqlclient-dev \
+	&& apt-get install -y --no-install-recommends libgdal-dev \
 	## Basic deps
+	&& apt-get install -y --no-install-recommends \
 	gdb \
 	libxml2-dev \
 	python3-pip \
@@ -39,17 +41,17 @@ RUN apt-get update \
 	liblzma-dev \
 	libbz2-dev \
 	libpng-dev \
-	libmariadb-dev-compat \
+	#libmariadb-dev-compat \
 	## sys deps from bioc_full
 	pkg-config \
-	fortran77-compiler \
+	fort77 \
 	byacc \
 	automake \
 	curl \
 	## This section installs libraries
 	libpng-dev \
 	libnetcdf-dev \
-	libhdf5-serial-dev \
+	libhdf5-dev \
 	libfftw3-dev \
 	libopenbabel-dev \
 	libopenmpi-dev \
@@ -112,13 +114,13 @@ RUN apt-get update \
 	xfonts-100dpi \
 	xfonts-75dpi \
 	biber \
-        software-properties-common \
+	software-properties-common \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 	
-RUN add-apt-repository universe \
-	&& add-apt-repository multiverse \
-	&& add-apt-repository restricted
+#RUN add-apt-repository universe \
+#	&& add-apt-repository multiverse \
+#	&& add-apt-repository restricted
 
 ## Python installations
 RUN apt-get update \
