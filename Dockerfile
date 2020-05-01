@@ -144,10 +144,10 @@ RUN cd /tmp \
 	&& make \
 	&& make install \
 	## xvfb install
-	&& cd /tmp \
-	&& rm -rf /tmp/s6-overlay* \
-	&& wget https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz \
-	&& tar zxf s6-overlay-amd64.tar.gz -C / \
+	#&& cd /tmp \
+	#&& rm -rf /tmp/s6-overlay* \
+	#&& wget https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz \
+	#&& tar zxf s6-overlay-amd64.tar.gz -C / \
 	#&& apt-get install -y --no-install-recommends xvfb \
 	#&& mkdir -p /etc/services.d/xvfb/ \
 	## Clean libsbml, and tar.gz files
