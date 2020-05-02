@@ -1,3 +1,6 @@
+# can be built with:
+# docker build -t bioconductor_docker:4.0.0 https://github.com/markrobinsonuzh/bioconductor_docker
+
 # The suggested name for this image is: bioconductor/bioconductor_docker:r4.0.0
 FROM rockerdev/rstudio:4.0.0
 
