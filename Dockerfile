@@ -134,6 +134,7 @@ RUN apt-get update \
 	pandas \
 	pyyaml \
 	cwltool \
+	python3-setuptools \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
