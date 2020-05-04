@@ -2,7 +2,7 @@
 # docker build -t bioconductor_docker:4.0.0 https://github.com/markrobinsonuzh/bioconductor_docker
 
 # The suggested name for this image is: bioconductor/bioconductor_docker:r4.0.0
-FROM rockerdev/rstudio:4.0.0
+FROM rockerdev/rstudio:4.0.0-ubuntu18.04
 
 ## Set Dockerfile version number
 ## This parameter should be incremented each time there is a change in the Dockerfile
