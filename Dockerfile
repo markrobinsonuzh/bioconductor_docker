@@ -58,7 +58,7 @@ RUN apt-get update \
 	libfftw3-dev \
 	libopenbabel-dev \
 	libopenmpi-dev \
-	libexempi8 \
+	libexempi-dev \
 	libxt-dev \
 	libgdal-dev \
 	libturbojpeg0-dev \
@@ -72,11 +72,11 @@ RUN apt-get update \
 	libglu1-mesa-dev \
 	libgmp3-dev \
 	libhdf5-dev \
-	libncurses-dev \
+	libncurses5-dev \
 	libbz2-dev \
 	libxpm-dev \
 	liblapack-dev \
-	libnode-dev \
+	libv8-dev \
 	libgtkmm-2.4-dev \
 	libmpfr-dev \
 	libudunits2-dev \
