@@ -1,5 +1,5 @@
 # can be built with:
-# docker build -t bioconductor_docker:4.0.0 https://github.com/markrobinsonuzh/bioconductor_docker
+# docker build -t bioconductor_docker:4.0.0-ubuntu18.04 https://github.com/markrobinsonuzh/bioconductor_docker.git#ubuntu18.04
 
 # The suggested name for this image is: bioconductor/bioconductor_docker:r4.0.0
 FROM rockerdev/rstudio:4.0.0-ubuntu18.04
@@ -128,13 +128,13 @@ RUN apt-get update \
 ## Python installations
 RUN apt-get update \
 	&& apt-get -y --no-install-recommends install python3-dev \
+	python3-setuptools \
 	&& pip3 install wheel \
 	## Install sklearn and pandas on python
 	&& pip3 install sklearn \
 	pandas \
 	pyyaml \
 	cwltool \
-	python3-setuptools \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
